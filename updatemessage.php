@@ -9,14 +9,13 @@ header("Content-type:application/json");
 $data = json_decode(file_get_contents("php://input"));
 
 // create variables to store the individual values/entities in the decoded data
-$uid = $data->user_id;
-$uname = $data->name;
-$pswd = $data->password;
-$email = $data->email;
-$phone = $data->phone;
-$country = $data->country;
-$location = $data->location;
-$usertype = $data->usertype;
+$msgid = $data->msg_id;
+$casetype = $data->category;
+$action = $data->action;
+$report = $data->report;
+$updatedby = $data->updatedby;
+$updatedate = $data->date;
+// $location = $data->location;
 
 // connect to the database
 $servername = "localhost";
@@ -32,7 +31,7 @@ if ($conn->connect_error) {
 }
 
 // execute sql querry to fetch the user details and match them if the name and the password matches
-$sql = mysqli_query($conn, "UPDATE users SET password='$pswd',name='$uname',email='$email',location='$location',phone_no='$phone',user_type='$usertype' WHERE user_id=$uid");
+$sql = mysqli_query($conn, "UPDATE inbox_messages SET case_title='$casetype',action='$action',report='$report',updated_by='$updatedby',report_update_date='$updatedate' WHERE msg_id=$msgid");
 
 // store fetched results in an array
 $rows = array();

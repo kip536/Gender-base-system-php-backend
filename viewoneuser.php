@@ -9,41 +9,24 @@ header("Content-type:application/json");
 $data = json_decode(file_get_contents("php://input"));
 
 // create variables to store the individual values/entities in the decoded data
+$userid = $data->user_id;
 
-$uname = $data->name;
-$pswd = $data->password;
-
-// connect to the database
 $servername = "localhost";
 $username   = "root";
 $password   = "";
 $dbname     = "reactphptest";
-
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection if it is successful
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// execute sql querry to fetch the user details and match them if the name and the password matches
-$sql = mysqli_query($conn, "SELECT * from users where user_name='$uname' AND password='$pswd'");
-
-// store fetched results in an array
-$rows = array();
-while($r = mysqli_fetch_assoc($sql)) {
-    $rows = $r;
+$result = mysqli_query($conn, "SELECT * from users where user_id='$userid'");
+    $rows = array();
+    while($r = mysqli_fetch_assoc($result)) {
+        $rows[] = $r;
+        
+    }
     
-}
-
-// condition for returning the response
-if (!empty($rows)) {
-    $response = $rows;
-    echo json_encode($response);
-}
-else {
-    $response = array('status'=>'invalid username or password');
-    echo json_encode($response);
-}
-
+    print json_encode($rows); //convert php data to json data
 ?>

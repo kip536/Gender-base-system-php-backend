@@ -14,8 +14,9 @@ echo "received data";
 $name = $data->name;
 $email = $data->email;
 $phone = $data->phone;
-$country = $data->country;
+$county = $data->county;
 $location = $data->location;
+$usertype = $data->usertype;
 
    
 
@@ -50,7 +51,7 @@ function random_num($length){
 
 $user_id = random_num(20);
 
-$sql = mysqli_query($conn, "insert into users (name, email, location, phone_no) values ('$name', '$email', '$location', '$phone')");
+$sql = mysqli_query($conn, "insert into users (name, email, county, location, phone_no, user_type) values ('$name', '$email', '$county', '$location', '$phone', '$usertype')");
 
 if ($sql) {
     $response['data'] = array('status'=>'success');
